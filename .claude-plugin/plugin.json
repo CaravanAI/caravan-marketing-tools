@@ -1,0 +1,24 @@
+{
+  "name": "own-your-site",
+  "description": "Migrate any Webflow, Squarespace, or Wix site to a self-owned Astro project. Sitemap-first discovery, comprehensive asset harvest with self-verification, visual fidelity check against the source. Own your website. Update it in your own words.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Caravan",
+    "email": "hello@thecaravan.ai",
+    "url": "https://www.thecaravan.ai"
+  },
+  "homepage": "https://github.com/CaravanAI/own-your-site",
+  "repository": "https://github.com/CaravanAI/own-your-site",
+  "license": "MIT",
+  "keywords": [
+    "migration",
+    "webflow",
+    "squarespace",
+    "wix",
+    "astro",
+    "tailwind",
+    "preline",
+    "own-your-site",
+    "website-rebuild"
+  ]
+}

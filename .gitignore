@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# editor
+.idea/
+.vscode/
+*.swp
+
+# node (for templates/astro-starter when extracted)
+node_modules/
+dist/
+.astro/
+*.log
+.env
+.env.local
+.env.production
+
+# build artifacts
+*.tsbuildinfo
