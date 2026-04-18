@@ -1,7 +1,6 @@
 ---
 name: start
-description: Guided first-run experience for Own Your Site. Detects the user's source CMS (Webflow, Squarespace, Wix, WordPress, custom), sets realistic expectations about what will and won't migrate cleanly, and routes them to the right next skill. Use when someone has just installed the plugin or isn't sure where to begin.
-disable-model-invocation: true
+description: Welcome + guided walkthrough for Own Your Site. Auto-invoke this when the user has just installed the plugin, says they're new, asks "what does this do" / "how do I use this" / "help me get started", expresses confusion or uncertainty, or mentions wanting to migrate a website without specifying how. Also invoke if they seem nervous, non-technical, or ask a broad question like "can you help me with my website." Fetches the sitemap, detects the source CMS (Webflow, Squarespace, Wix, WordPress, Shopify, custom), sets expectations about what will migrate cleanly, and routes to the right next skill. Safe to run — it's read-only discovery, no changes made.
 argument-hint: "[source-url]"
 allowed-tools: Bash, WebFetch, Read, Agent
 ---

@@ -44,22 +44,26 @@ Or install the plugin directly:
 
 ## Quick start
 
-**First time? Start with the guided welcome:**
+**No commands to memorize.** After installing, just tell Claude what you want in your own words. Try any of these:
+
+> "I just installed this — what do I do?"
+> "Help me migrate my website off WordPress."
+> "Can you look at mybusiness.com and tell me what I have?"
+> "Save all my photos before I lose access to the old site."
+
+The plugin listens to natural language and routes you to the right tool. The first time you open Claude Code after installing, it'll proactively greet you and offer a guided walkthrough.
+
+**If you'd rather type commands directly:**
 
 ```bash
-# In Claude Code:
+# Guided walkthrough (what first-timers want)
 /own-your-site:start
-```
 
-The `/start` skill detects what platform your current site is on (Webflow, WordPress, Squarespace, Wix, etc.), tells you what will migrate cleanly vs what needs a separate decision, and routes you to the right next skill.
-
-**Know what you're doing? Jump straight in:**
-
-```bash
+# Full end-to-end migration (when you know what you're doing)
 /own-your-site:migrate-site https://mybusiness.com
 ```
 
-Walks through discovery → audit → harvest → scaffold → fidelity check → dev server. Takes 20-60 minutes depending on site size. You end up at `localhost:4321` looking at your new site.
+A full migration takes 20-60 minutes depending on site size. At the end you're looking at `http://localhost:4321` with your new site, ready to review and deploy.
 
 ## What platforms does this support?
 
