@@ -35,21 +35,96 @@ If `$ARGUMENTS` is blank, ask the user what they want to do:
 
 If `$ARGUMENTS` contains a URL, skip question 1.
 
-## Step 2 — Detect the CMS
+## Step 2 — Fetch the sitemap AND detect the CMS (in parallel)
 
-Run a lightweight check on the URL (use `WebFetch` or `curl`) to identify the source platform. Look for these signatures:
+These two together give you the complete initial picture. Run both at once:
 
-| Signature | Platform |
-|---|---|
-| `<meta name="generator" content="WordPress ...">` or `wp-content/`, `wp-includes/` in source | **WordPress** |
-| `cdn.prod.website-files.com` or `webflow.js` in source | **Webflow** |
-| `static1.squarespace.com` or `squarespace-cdn.com` in source | **Squarespace** |
-| `parastorage.com` or `wixstatic.com` in source | **Wix** |
-| `cdn.shopify.com` or `shopify-` in source | **Shopify** |
-| None of the above | **Custom / unknown** |
+### CMS detection
 
 ```bash
 curl -s <url> | grep -oiE "(webflow|squarespace|wixstatic|wp-content|wp-includes|shopify|<meta name=\"generator\" content=\"[^\"]+\")" | head -5
+```
+
+| Signature | Platform |
+|---|---|
+| `<meta name="generator" content="WordPress ...">` or `wp-content/`, `wp-includes/` | **WordPress** |
+| `cdn.prod.website-files.com` or `webflow.js` | **Webflow** |
+| `static1.squarespace.com` or `squarespace-cdn.com` | **Squarespace** |
+| `parastorage.com` or `wixstatic.com` | **Wix** |
+| `cdn.shopify.com` or `shopify-` | **Shopify** |
+| None of the above | **Custom / unknown** |
+
+### Sitemap fetch (the more important signal)
+
+```bash
+# Try the standard location first
+curl -sfL <url>/sitemap.xml -o /tmp/sitemap.xml 2>/dev/null
+
+# If that 404s, check robots.txt for a non-standard location
+if [ ! -s /tmp/sitemap.xml ]; then
+  curl -s <url>/robots.txt | grep -i '^sitemap:' | awk '{print $2}' | head -1
+fi
+```
+
+Parse the sitemap:
+
+```bash
+# Count URLs
+curl -s <url>/sitemap.xml | grep -c '<loc>'
+
+# Extract URL list
+curl -s <url>/sitemap.xml | grep -oE '<loc>[^<]+</loc>' | sed 's/<[^>]*>//g' | sort -u
+
+# Categorize by URL pattern
+curl -s <url>/sitemap.xml | grep -oE '<loc>[^<]+</loc>' | sed 's/<[^>]*>//g' \
+  | sed 's|<url>/||; s|/[^/]*$|/|' | sort | uniq -c | sort -rn
+```
+
+## Step 3 — Present what you found
+
+Show the user a unified briefing before asking any more questions:
+
+```
+Found your site. Here's the picture:
+
+PLATFORM:    WordPress (via <meta name="generator">)
+SITEMAP:     found (47 URLs, referencing 2 subdomains)
+
+URL BREAKDOWN:
+  — 7 main pages (home, about, services, etc.)
+  — 12 blog posts under /blog/
+  — 19 staff bio pages under /staff/
+  — 6 product pages under /product/
+  — 3 category pages under /category/
+
+ANOMALIES FLAGGED:
+  ⚠ Sitemap references BOTH yoursite.com AND oldsite.com — possible SEO issue worth fixing
+  ⚠ 6 /product/* URLs look like leftover template pages (check if these should still be indexed)
+
+DYNAMIC FEATURES TO DECIDE ABOUT (WordPress-specific):
+  → Forms (likely Gravity Forms or Contact Form 7) — where should submissions go?
+  → Any shop / member areas / custom login?
+
+SCOPE ESTIMATE:
+  47 URLs × 15-25 minutes per 10 URLs = roughly 45-90 minutes for a full migration.
+```
+
+If the sitemap is missing:
+
+```
+PLATFORM:    WordPress
+SITEMAP:     not found at /sitemap.xml or in /robots.txt
+  → We'll have to discover pages by crawling your nav, which is less reliable.
+  → If you have a sitemap available elsewhere (e.g., in a /sitemap_index.xml file), paste the URL.
+```
+
+If the sitemap is huge (500+ URLs, e-commerce-scale):
+
+```
+SITEMAP:     found (3,847 URLs — this is a large site)
+  → Full migration of every URL would take many hours.
+  → Recommend: scope this down. Which URL patterns matter most?
+    (e.g., "migrate the marketing pages + blog, leave the product catalog on the current platform")
 ```
 
 ## Step 3 — Set expectations per platform
@@ -77,6 +152,8 @@ Based on what you detected, tell the user what will work and what won't:
 > "Let's look at the site together. Can you tell me: was this built by an agency? Is there a CMS where you add content, or is everything hard-coded? What changes most often — pages, blog posts, products?"
 
 ## Step 4 — Route to the right next step
+
+Now that you have the complete picture (platform + URL count + anomalies + dynamic features), route based on evidence, not guesses.
 
 Based on their intent + platform:
 
