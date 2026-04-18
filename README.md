@@ -44,12 +44,37 @@ Or install the plugin directly:
 
 ## Quick start
 
+**First time? Start with the guided welcome:**
+
 ```bash
 # In Claude Code:
+/own-your-site:start
+```
+
+The `/start` skill detects what platform your current site is on (Webflow, WordPress, Squarespace, Wix, etc.), tells you what will migrate cleanly vs what needs a separate decision, and routes you to the right next skill.
+
+**Know what you're doing? Jump straight in:**
+
+```bash
 /own-your-site:migrate-site https://mybusiness.com
 ```
 
-That's the whole thing. The plugin walks through discovery → audit → harvest → scaffold → fidelity check → dev server. Takes 20-60 minutes depending on site size. You end up at `localhost:4321` looking at your new site.
+Walks through discovery → audit → harvest → scaffold → fidelity check → dev server. Takes 20-60 minutes depending on site size. You end up at `localhost:4321` looking at your new site.
+
+## What platforms does this support?
+
+| Platform | Support | Notes |
+|---|---|---|
+| **Webflow** | Full | Plugin was built for this. Best-tested path. |
+| **Squarespace** | Full | Same scrape approach works well. |
+| **Wix** | Full | Works, but Wix HTML can be quirky — expect more fidelity iterations. |
+| **WordPress** | Partial | Static content (pages, blog, team, photos) migrates cleanly. **Dynamic features need separate decisions:** Forms (Gravity, CF7) → replace with HubSpot/Formspree. Commerce (WooCommerce) → headless Shopify, Stripe Checkout, or stay on WP. Member areas → separate auth solution. ACF custom fields → may need DB export for rich structured data. |
+| **Shopify** | Headless | Rebuild the marketing site with Astro, keep Shopify backend for products + checkout. |
+| **Ghost** | Partial | Posts + pages migrate. Members/subscriptions need alternate strategy. |
+| **Custom / hardcoded** | Full | No CMS to worry about — scrape + rebuild works cleanly. |
+| **Bespoke React/Next sites** | Manual | Migration is usually code-to-code; this plugin's scrape-first approach doesn't add much value. |
+
+**The honest guardrail:** this plugin migrates the **content + design** of a site. Dynamic functionality (commerce, auth, bookings, custom admin) always needs a separate decision about where that lives on the new stack.
 
 ---
 

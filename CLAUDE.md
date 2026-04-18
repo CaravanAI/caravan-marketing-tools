@@ -95,6 +95,42 @@ See `docs/fidelity-check.md`.
 
 ---
 
+## Platform-specific notes
+
+### WordPress (the trickier case)
+
+WordPress sites often carry dynamic functionality that doesn't transfer via a static scrape. When migrating a WordPress site, the plugin should proactively ask about:
+
+- **Forms** — Gravity Forms, Contact Form 7, Ninja Forms all need a replacement destination (HubSpot, Formspree, Vercel server action)
+- **Commerce** — WooCommerce is a whole separate decision. Recommend headless Shopify, Stripe Checkout, or keeping the shop on WP with the rest migrated
+- **Member areas / login** — MemberPress, WooCommerce Memberships, BuddyPress — these need a new auth solution (Clerk, Auth0, Supabase Auth)
+- **Custom fields** — ACF (Advanced Custom Fields) stores data that's often not visible from scraped HTML. For rich structured data (events, products with metadata, staff with bios + contact), a DB export may be needed
+- **Plugin-generated blocks** — the rendered HTML scrapes fine, but the mechanism (e.g., dynamic post grids, related content) doesn't transfer
+
+**Rule:** for WordPress sites, always run `/audit-site` first to surface what's on the site before committing to a full `/migrate-site` run. The audit's anomaly list should flag every dynamic feature that needs a separate decision.
+
+### Shopify
+
+Shopify is actually *easier* than WordPress for one reason: the checkout + product catalog stay on Shopify, and this plugin just rebuilds the marketing storefront. "Headless Shopify with an Astro frontend" is a well-trodden path. Don't scrape the checkout; do scrape the home, about, collection, and product pages, and link them to Shopify's Storefront API.
+
+### Ghost
+
+Blog + pages migrate via the scrape. Membership + subscription functionality needs alternate strategy (Outseta, or similar).
+
+### Hosted CMS (Webflow / Squarespace / Wix)
+
+These are the plugin's sweet spot. Content + design scrape cleanly. Forms are the only thing that needs a replacement destination.
+
+### Custom hardcoded sites
+
+No CMS, no plugins, no surprises. The scrape + rebuild flow works cleanly. Might actually be the easiest category.
+
+### Bespoke React / Next.js / modern SPA sites
+
+Migration is usually code-to-code, not scrape-based. This plugin's scrape-first approach is less valuable here — the original source is probably already in good shape. Recommend the user work directly with their existing codebase instead.
+
+---
+
 ## When in doubt
 
 Read the relevant playbook in `docs/`. If the playbook doesn't answer it, the honest thing is to flag the uncertainty back to the user rather than making a confident guess. The plugin's credibility depends on being right, not on being confident.

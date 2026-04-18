@@ -12,9 +12,30 @@ You are orchestrating a full website migration from $ARGUMENTS[0] to a new Astro
 
 Read the plugin-level `CLAUDE.md` for the 10 core principles before you start. All of them apply. The `docs/` folder has full playbooks for every phase.
 
-## Phase 0 — Sitemap discovery
+## Phase 0a — CMS detection (do this before the sitemap)
 
-**Always start here.** Fetch the sitemap:
+Identify what platform the source site is on. This determines what gets warnings, what needs scope calls, and how to set user expectations.
+
+```bash
+curl -s <source-url> | grep -oiE "(webflow|squarespace|wixstatic|wp-content|wp-includes|shopify|<meta name=\"generator\" content=\"[^\"]+\")" | head -5
+```
+
+Signatures and platform-specific handling:
+
+- **WordPress** (`wp-content/`, `wp-includes/`, `WordPress` in meta generator) → Warn about dynamic features (forms, commerce, member areas, ACF custom fields). Ask what else is on the site before proceeding with full migration. Recommend running `/audit-site` first if dynamic features are heavy.
+- **Webflow** (`cdn.prod.website-files.com`, `webflow.js`) → Standard migration path. Everything this plugin was designed for.
+- **Squarespace** (`static1.squarespace.com`, `squarespace-cdn.com`) → Standard migration path. Same as Webflow.
+- **Wix** (`parastorage.com`, `wixstatic.com`) → Standard migration path, but flag to user that Wix sites can have quirky HTML structure that may need more fidelity passes.
+- **Shopify** (`cdn.shopify.com`, `shopify-`) → Suggest headless approach: rebuild the marketing side with Astro, keep Shopify as the backend for products + checkout.
+- **Custom / unknown** → Ask the user questions about content editing workflow before assuming it's a clean migration target.
+
+Present the detection result to the user. Confirm before proceeding:
+
+> "Looks like the site is on WordPress. Quick question before we go further: does the site have a shop, member area, or lots of custom forms? Those don't migrate cleanly — we'd need to decide how to handle them separately."
+
+## Phase 0b — Sitemap discovery
+
+**Always start here after CMS detection.** Fetch the sitemap:
 
 ```bash
 curl -s <source-url>/sitemap.xml | grep -oE "<loc>[^<]+</loc>" | sed 's/<[^>]*>//g' | sort -u > sitemap-urls.txt
