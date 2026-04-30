@@ -2,182 +2,86 @@
 
 **Your website. Your voice. Your pace.**
 
-A Claude Code plugin that migrates any Webflow, Squarespace, or Wix site to a self-owned Astro project — with one command. Sitemap-first discovery, comprehensive asset harvest, and a visual fidelity check so nothing gets missed.
+Migrate any Webflow, Squarespace, Wix, or WordPress site to a self-owned Astro project — for free, in plain English, in about an hour. No subscription, no agency hourly rate, no learning curve.
+
+Built and maintained by [Caravan](https://www.thecaravan.ai).
+
+---
+
+## For non-technical users
+
+If you have a website you'd like to own and want to use this tool, **download the `/starter` folder** and follow the README inside it. The starter is a self-contained kit you drop on your computer, open in Claude Code, and follow along.
+
+[**→ Download the starter folder**](starter)
+
+If you're not sure whether this is for you, copy [this prompt](paste-into-chatgpt-or-claude.md) and paste it into ChatGPT, Claude, or any other AI chat. The AI will walk you through what's about to happen and answer your questions before you commit.
+
+You'll need [Claude Code](https://claude.com/claude-code) installed on your computer:
+- **Mac:** [How to install Claude Code on Mac](https://www.youtube.com/watch?v=R63hFl8hqcc) (3 min video)
+- **Windows:** [How to install Claude Code on Windows](https://www.youtube.com/watch?v=NYrBuYDcnCE) (3 min video)
+
+That's it. The rest is conversation with Claude.
 
 ---
 
 ## What it does
 
-Point it at your current website. The plugin:
+You point it at your website. It:
 
-1. **Reads the sitemap** to find every URL on the site (no page gets missed)
-2. **Audits every page** — brand tokens, components, motion, layouts
-3. **Downloads every image** with scroll-to-bottom lazy-load catching + self-verification
-4. **Scaffolds a new Astro project** with your brand colors, fonts, and content
-5. **Checks visual fidelity** — compares your new site to the old one section-by-section
-6. **Hands you a localhost preview** you can run, edit, and deploy to Vercel
+1. Reads the sitemap so no page gets missed
+2. Walks every page, captures your colors, fonts, and layouts
+3. Downloads every image
+4. Builds a clean Astro project on your computer
+5. Compares the new site to the old one and flags differences
+6. Hands you a preview at `http://localhost:4321`
 
-Then it's yours. Forever. Edit it in plain English with Claude Code. No more agency contracts, no more waiting on changes.
-
----
-
-## Install
-
-```bash
-# Inside Claude Code:
-/plugin install own-your-site@caravan-plugins
-```
-
-Or install the plugin directly:
-
-```bash
-/plugin install own-your-site@https://github.com/CaravanAI/own-your-site
-```
-
-**Prerequisite:** Playwright MCP (install separately):
-
-```bash
-/plugin install playwright@anthropic
-```
+About 20 to 60 minutes depending on size. Your live site stays untouched the whole time. When you're ready, run `/launch` and Claude walks you through publishing to GitHub + Vercel + your domain.
 
 ---
 
-## Quick start
-
-**No commands to memorize.** After installing, just tell Claude what you want in your own words. Try any of these:
-
-> "I just installed this — what do I do?"
-> "Help me migrate my website off WordPress."
-> "Can you look at mybusiness.com and tell me what I have?"
-> "Save all my photos before I lose access to the old site."
-
-The plugin listens to natural language and routes you to the right tool. The first time you open Claude Code after installing, it'll proactively greet you and offer a guided walkthrough.
-
-**If you'd rather type commands directly:**
-
-```bash
-# Guided walkthrough (what first-timers want)
-/own-your-site:start
-
-# Full end-to-end migration (when you know what you're doing)
-/own-your-site:migrate-site https://mybusiness.com
-```
-
-A full migration takes 20-60 minutes depending on site size. At the end you're looking at `http://localhost:4321` with your new site, ready to review and deploy.
-
-## What platforms does this support?
-
-| Platform | Support | Notes |
-|---|---|---|
-| **Webflow** | Full | Plugin was built for this. Best-tested path. |
-| **Squarespace** | Full | Same scrape approach works well. |
-| **Wix** | Full | Works, but Wix HTML can be quirky — expect more fidelity iterations. |
-| **WordPress** | Partial | Static content (pages, blog, team, photos) migrates cleanly. **Dynamic features need separate decisions:** Forms (Gravity, CF7) → replace with HubSpot/Formspree. Commerce (WooCommerce) → headless Shopify, Stripe Checkout, or stay on WP. Member areas → separate auth solution. ACF custom fields → may need DB export for rich structured data. |
-| **Shopify** | Headless | Rebuild the marketing site with Astro, keep Shopify backend for products + checkout. |
-| **Ghost** | Partial | Posts + pages migrate. Members/subscriptions need alternate strategy. |
-| **Custom / hardcoded** | Full | No CMS to worry about — scrape + rebuild works cleanly. |
-| **Bespoke React/Next sites** | Manual | Migration is usually code-to-code; this plugin's scrape-first approach doesn't add much value. |
-
-**The honest guardrail:** this plugin migrates the **content + design** of a site. Dynamic functionality (commerce, auth, bookings, custom admin) always needs a separate decision about where that lives on the new stack.
-
----
-
-## What's included
-
-### Skills (user commands)
-
-| Skill | What it does |
-|---|---|
-| `/own-your-site:migrate-site <url>` | Full end-to-end migration. Flagship command. |
-| `/own-your-site:audit-site <url>` | Just the analysis pass. No rebuild. |
-| `/own-your-site:harvest-assets <url>` | Just download every image with self-verification. |
-| `/own-your-site:check-fidelity <src> <rebuild>` | Compare your rebuild to the source site, section-by-section. |
-| `/own-your-site:scaffold-astro <output>` | Create an Astro + Tailwind + Preline project from brand tokens. |
-
-### Subagents (specialized workers)
-
-- **site-scout** — drives Playwright through every page, captures structure + tokens
-- **brand-analyst** — extracts design system (colors, type, buttons, spacing)
-- **component-analyst** — maps recurring patterns to Preline UI blocks
-- **rebuild-architect** — proposes Astro architecture (pages, components, forms, tracking)
-- **asset-harvester** — downloads every image with self-verification
-- **visual-qa** — side-by-side fidelity diff between source and rebuild
-
-### Docs
-
-Full playbooks live in `docs/`:
-
-- `asset-audit.md` — the sitemap-first harvest pattern
-- `scout-and-analysts.md` — the 2-phase agent architecture
-- `component-polish.md` — motion + interaction standards (no pausing marquees, no silent placeholders)
-- `fidelity-check.md` — 3-phase source→rebuild parity verification
-- `modernization-pass.md` — future "modernized" refresh on top of a faithful rebuild
-
----
-
-## How it works (architecture)
+## What's in this repo
 
 ```
-/migrate-site <url>
-     │
-     ▼
-sitemap.xml → URL task list  (Phase 0 — never miss a page)
-     │
-     ▼
-site-scout agent             (serial — 1 browser session, all URLs)
-     │
-     ▼
-┌────────┬─────────────┬────────────────┐  (parallel — 3 analysts)
-brand    component      rebuild
-analyst  analyst        architect
-└────────┴─────────────┴────────────────┘
-     │
-     ▼
-asset-harvester              (downloads + self-verifies coverage)
-     │
-     ▼
-scaffold-astro               (creates the new project)
-     │
-     ▼
-visual-qa                    (section-by-section fidelity diff)
-     │
-     ▼
-localhost:4321 + coverage report
+own-your-site/
+├── starter/                          ← The downloadable product
+│   ├── README.md                     ← Onboarding guide for users
+│   ├── CLAUDE.md                     ← Claude Code bootloader
+│   ├── migrate.command               ← Mac double-click launcher
+│   ├── migrate.bat                   ← Windows double-click launcher
+│   └── .claude/                      ← Skills, agents, settings
+└── paste-into-chatgpt-or-claude.md   ← Pre-flight prompt for any AI chat
 ```
 
-**Why sitemap-first:** on our pilot migration, the site owner estimated 7 pages. The sitemap revealed 75. That's a 90% miss rate with any other discovery approach.
-
-**Why self-verification:** downloading images isn't enough. The plugin greps your new site for `IMAGE NEEDED` placeholders before declaring it done. No gradient-that-looks-polished-but-is-actually-a-TODO slipping through.
+The `starter/` folder is what users download. Everything else here is repo metadata.
 
 ---
 
-## Requirements
+## How it works (for the curious)
 
-- Claude Code (latest version, with `/plugin` support)
-- Node.js ≥ 22.12 (for running the generated Astro site)
-- Playwright MCP (installed separately — see above)
-- A terminal and a few minutes
+The `starter/.claude/` folder holds the actual logic:
 
----
+- **3 skills** — `/start` (intake interview), `/migrate-site` (the flagship), `/launch` (deploy)
+- **3 subagents** — `site-scout` (Playwright walker), `audit-analyst` (brand + components + plan), `visual-qa` (fidelity diff)
+- **1 settings file** — pre-approved permissions + a SessionStart hook (project-scoped, doesn't touch the user's machine)
 
-## Contributing
-
-Found a gap in coverage? A site pattern the plugin doesn't handle well? Open an issue or PR. Most of the learnings in this plugin came from real client migrations — yours can too.
-
-See `docs/` for the full playbooks powering each skill. They evolve alongside the plugin.
+The architecture follows a "scout + parallel analysts" pattern: one agent walks the source site serially in a single browser session, then analyst agents read the saved data in parallel to produce deliverables. Skills self-gate via a human-readable `notes.md` profile written by the intake.
 
 ---
 
 ## Built by Caravan
 
-Caravan trains people to do real work with AI — writing, research, marketing ops, design, analysis, and yes, building websites. Our workshops teach you how to delegate the rote parts of your job to Claude and stay in charge of the judgment calls.
+Caravan is a Birmingham-based AI training and capacity-building company. We teach people to do real work with Claude — including building and running their own websites. This is one of the tools we use in class.
 
-Own Your Site is the first plugin in a growing Caravan toolkit for AI-native work. More are coming. Website migration is just the start.
+If you'd like to learn how any of this is actually built, take a Caravan class: [thecaravan.ai](https://www.thecaravan.ai).
 
-If you want to learn how any of this is actually built, take a Caravan class: [thecaravan.ai](https://www.thecaravan.ai).
+---
+
+## Contributing
+
+Found a gap in coverage? A site pattern this doesn't handle well? Open an issue or PR. Most of the learnings in this tool came from real client migrations — yours can too.
 
 ---
 
 ## License
 
-MIT. Do what you want with it. Build your own agency on top of it. Fork it and make it better. Just keep the license file.
+MIT. Use it, fork it, build your own agency on top of it. Just keep the license file.
