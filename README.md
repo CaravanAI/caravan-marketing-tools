@@ -17,8 +17,8 @@ If you have a website you'd like to own and want to use this tool, **download th
 If you're not sure whether this is for you, copy [this prompt](paste-into-chatgpt-or-claude.md) and paste it into ChatGPT, Claude, or any other AI chat. The AI will walk you through what's about to happen and answer your questions before you commit.
 
 You'll need [Claude Code](https://claude.com/claude-code) installed on your computer:
-- **Mac:** [How to install Claude Code on Mac](https://www.youtube.com/watch?v=R63hFl8hqcc) (3 min video)
-- **Windows:** [How to install Claude Code on Windows](https://www.youtube.com/watch?v=NYrBuYDcnCE) (3 min video)
+- **Mac:** [How to install Claude Code on Mac](https://www.youtube.com/watch?v=R63hFl8hqcc) (video walkthrough)
+- **Windows:** [How to install Claude Code on Windows](https://www.youtube.com/watch?v=NYrBuYDcnCE) (video walkthrough)
 
 That's it. The rest is conversation with Claude.
 

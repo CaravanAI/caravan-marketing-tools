@@ -13,8 +13,8 @@ In about an hour, you'll have a clean copy of your site running on your computer
 ## How to start
 
 You need **Claude Code** installed on your computer. If you don't have it yet:
-- **Mac:** [install guide video](https://www.youtube.com/watch?v=R63hFl8hqcc) (3 min)
-- **Windows:** [install guide video](https://www.youtube.com/watch?v=NYrBuYDcnCE) (3 min)
+- **Mac:** [install guide video](https://www.youtube.com/watch?v=R63hFl8hqcc)
+- **Windows:** [install guide video](https://www.youtube.com/watch?v=NYrBuYDcnCE)
 - Or download from [claude.com/claude-code](https://claude.com/claude-code)
 
 Once Claude Code is installed:
