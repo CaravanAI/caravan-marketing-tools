@@ -1,6 +1,6 @@
 ---
 name: migrate-site
-description: Migrate a website from Webflow, Squarespace, Wix, or WordPress to a self-owned Astro project. Reads `.own-your-site/notes.md` (from `/start`) for the user's profile, then runs the full migration end-to-end — sitemap discovery, scout pass, audit analysis, asset harvest, scaffold, and fidelity check. Flagship command. Use when the user wants a full website rebuild and the intake interview has already been completed.
+description: Migrate a website from Webflow, Squarespace, Wix, or WordPress to a self-owned Astro project. Reads `.own-your-site/notes.md` (from `/own-your-site:start`) for the user's profile, then runs the full migration end-to-end — sitemap discovery, scout pass, audit analysis, asset harvest, scaffold, and fidelity check. Flagship command. Use when the user wants a full website rebuild and the intake interview has already been completed.
 argument-hint: "<source-url> [output-dir]"
 allowed-tools: Bash Read Write Edit Glob Grep Agent
 ---
@@ -14,7 +14,7 @@ You are orchestrating a full website migration from $ARGUMENTS[0] to a new Astro
 Read `.own-your-site/notes.md` from the working directory.
 
 - If it exists with `Phase: intake-complete` (or later), use the profile to skip questions you already have answers for.
-- If it doesn't exist, route the user: *"Before we migrate, let's run a quick intake so I know what you need. Run `/start` first."*
+- If it doesn't exist, route the user: *"Before we migrate, let's run a quick intake so I know what you need. Run `/own-your-site:start` first."*
 
 Update `notes.md` to mark `Phase: migration-in-progress` before kicking off Phase 0.
 
@@ -101,7 +101,7 @@ Tell the user, in plain language:
 
 > "Your new website preview is ready. Open **http://localhost:4321** in your browser to see it. A few things to know:
 > - It's running **on your computer**, not on the internet. Only you can see it.
-> - Your current live website is unchanged — this is a completely separate new site sitting in a folder.
+> - Your current live website is unchanged — this new site lives in its own folder (`new-site/`, inside the folder you opened Claude Code in). Your existing files weren't touched.
 > - You can stop here if you want. Everything is saved to your computer. You can pick back up next week or next month — just open Claude Code in this folder again."
 
 Then summarize:
@@ -109,7 +109,7 @@ Then summarize:
 - Fidelity verdict (if applicable) or note that divergences are intentional (redesign)
 - Any unfilled placeholders
 - Next: open the preview, click around, tell me what looks off
-- After that: `/launch` to put it online
+- After that: `/own-your-site:launch` to put it online
 
 ## Write back to notes
 

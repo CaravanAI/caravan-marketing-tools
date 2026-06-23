@@ -1,6 +1,6 @@
 ---
 name: launch
-description: Put the migrated site online. Wraps GitHub (code storage) + Vercel (hosting) + domain wiring into one continuous flow. Reads `.own-your-site/notes.md` to know whether the user has accounts already, and walks them through sign-up step-by-step if not. Use after `/migrate-site` finishes and the user is ready to go live.
+description: Put the migrated site online. Wraps GitHub (code storage) + Vercel (hosting) + domain wiring into one continuous flow. Reads `.own-your-site/notes.md` to know whether the user has accounts already, and walks them through sign-up step-by-step if not. Use after `/own-your-site:migrate-site` finishes and the user is ready to go live.
 argument-hint: ""
 allowed-tools: Bash Read Write Edit WebFetch
 ---
@@ -11,7 +11,7 @@ This is the deploy flow. The user has a working site at `http://localhost:4321`.
 
 ## Phase -1 — Read state
 
-Read `.own-your-site/notes.md`. Phase must be `rebuild-complete`. If not, tell the user: *"The site needs to be built before we can launch it. Run `/migrate-site` first."*
+Read `.own-your-site/notes.md`. Phase must be `rebuild-complete`. If not, tell the user: *"The site needs to be built before we can launch it. Run `/own-your-site:migrate-site` first."*
 
 Note the user's GitHub/Vercel comfort from the profile. Three branches:
 - **"Yes, both"** — fast path, just push and deploy

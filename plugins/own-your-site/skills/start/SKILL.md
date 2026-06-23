@@ -148,10 +148,10 @@ Create `.own-your-site/notes.md` (mkdir -p the folder first if needed). Write a 
 
 Recap in 2-3 sentences. Then route:
 
-- Approach = "copy" or "undecided" → recommend `/migrate-site <url>`
-- Approach = "redesign" → recommend `/migrate-site <url>` and tell Claude inside that flow to skip the fidelity check (we're rebuilding the design too, so divergences are intentional)
+- Approach = "copy" or "undecided" → recommend `/own-your-site:migrate-site <url>`
+- Approach = "redesign" → recommend `/own-your-site:migrate-site <url>` and tell Claude inside that flow to skip the fidelity check (we're rebuilding the design too, so divergences are intentional)
 
-End with: *"When you're ready, run `/migrate-site` and we'll start. Your answers are saved in `.own-your-site/notes.md` — open it in any text editor anytime."*
+End with: *"When you're ready, run `/own-your-site:migrate-site` and we'll start. Your answers are saved in `.own-your-site/notes.md` — open it in any text editor anytime."*
 
 ## Principles
 

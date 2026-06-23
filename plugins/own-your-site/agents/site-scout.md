@@ -13,15 +13,27 @@ You will be given:
 - A URL list (from sitemap.xml, already filtered)
 - An output directory (e.g., `./audit/`)
 
-## Prerequisites — tool loading
+## Prerequisites — choose your browser engine
 
-Playwright MCP is a deferred tool. Before calling any `mcp__*__playwright__*` tool, load the schemas via ToolSearch:
+This agent drives a real browser to walk the site. Two engines are supported; **prefer Claude in Chrome when it's connected, fall back to Playwright.**
+
+**1. Claude in Chrome (preferred — lowest friction).** If the session was started with `claude --chrome` (or `/chrome` was run), a `claude-in-chrome` MCP is connected that drives the user's real Chrome/Edge. Discover its browser tools via ToolSearch and use them for the operations below (navigate / screenshot / snapshot / evaluate / resize):
+
+```
+claude-in-chrome browser navigate screenshot
+```
+
+Exact tool names come back from ToolSearch — map them to the operations below. Notes: on a Pro plan these run on Haiku 4.5 (fine for reading colors / fonts / DOM); the live-browser connection can idle out during a long walk — if a browser call stops responding, ask the main thread to reconnect with `/chrome`, then resume where you left off.
+
+**2. Playwright MCP (fallback — headless, robust for big sites).** If Claude in Chrome is NOT connected, use Playwright. It's a deferred tool — load the schemas via ToolSearch first:
 
 ```
 select:mcp__plugin_playwright_playwright__browser_navigate,mcp__plugin_playwright_playwright__browser_take_screenshot,mcp__plugin_playwright_playwright__browser_snapshot,mcp__plugin_playwright_playwright__browser_evaluate,mcp__plugin_playwright_playwright__browser_resize,mcp__plugin_playwright_playwright__browser_network_requests,mcp__plugin_playwright_playwright__browser_wait_for
 ```
 
-If Playwright MCP isn't installed, fail fast and tell the main thread to install it.
+If NEITHER engine is available, fail fast and tell the main thread to either enable Claude in Chrome (`claude --chrome`) or install Playwright MCP.
+
+The per-page procedure below is written with Playwright tool names. When running via Claude in Chrome, perform the **same operations** — navigate, scroll to trigger lazy-loads (via a JS/evaluate call), full-page screenshot, DOM/accessibility snapshot, and evaluate for brand-token + image extraction — using the Chrome tool equivalents.
 
 ## Output structure
 

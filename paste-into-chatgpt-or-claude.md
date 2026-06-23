@@ -15,6 +15,6 @@ I'm not technical. Before I download anything or open a terminal, please help me
 5. **What it'll cost.** The tool itself is free, but is anything else going to charge me money? (Hosting, AI usage, anything else?)
 6. **What questions I should ask myself before I start** — about my site, my goals, my comfort level, my time.
 
-After we've talked through those, I'll download Own Your Site from `github.com/CaravanAI/own-your-site` and follow its instructions. But I want to feel ready first, and I want a friend in the conversation as I go.
+After we've talked through those, I'll install Own Your Site inside Claude Code — it's a plugin. I add Caravan's marketplace with `/plugin marketplace add CaravanAI/own-your-site`, install it with `/plugin install own-your-site@caravan-marketing-tools`, and then just talk to it. But I want to feel ready first, and I want a friend in the conversation as I go.
 
 Be warm and direct. Don't dump every detail at once — go through it like a conversation, not a manual. Ask me questions back so you can tailor the answers to my situation. If I ask something dumb, just answer it kindly.
