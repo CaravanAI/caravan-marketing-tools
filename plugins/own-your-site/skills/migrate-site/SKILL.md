@@ -80,6 +80,7 @@ npm install -D @astrojs/sitemap @tailwindcss/forms @tailwindcss/typography @tail
 
 Wire in from `audit.md`:
 - `src/styles/global.css` with `@import "tailwindcss"` + `@theme` block (brand tokens)
+- `CLAUDE.md` (in the new project) — a `## Design system` block listing the brand tokens (colors, typography, spacing) from `audit.md`, sourced from the **brand guideline** if one was provided (else the scraped values). This keeps Claude's built-in design skill and every future "change my homepage" edit on-brand.
 - `src/layouts/BaseLayout.astro` — font preconnects, slot, **and the SEO head**: per-page `<title>` and `<meta name="description">` (passed as props, defaulting to the audit's per-page metadata), a self-referencing `<link rel="canonical">`, and Open Graph + Twitter-card tags. Every page passes its own title/description through.
 - `src/components/StructuredData.astro` — JSON-LD from the audit (Organization always; LocalBusiness if the business has a location/phone/hours), rendered in BaseLayout's `<head>`
 - `src/components/Navbar.astro`, `Footer.astro`, `PlaceholderImage.astro` (with `IMAGE NEEDED` literal string + dashed magenta border), `Button.astro`

@@ -14,12 +14,15 @@ You are the audit analyst. Read the scout's saved output and produce ONE complet
 - `<audit-dir>/data/homepage-tokens.json` — exact font + color + button data
 - `<audit-dir>/sitemap-urls.txt` — the URL list
 - A few screenshots from `<audit-dir>/screenshots/` for visual confirmation
+- `.own-your-site/notes.md` — **if a brand guideline (file path or link) is listed, READ it FIRST** (a PDF/doc via the Read tool; a link via WebFetch). It is the **authoritative** brand source — it outranks anything scraped from the live site.
 
 ## Your output
 
 Write to `<audit-dir>/audit.md`. One file, the following sections.
 
 ### 1. Brand system
+
+> **If a brand guideline was provided** (see Inputs), it is the source of truth: take colors (exact hex), fonts, logo, and spacing from it, and let it **override** anything scraped from the live site. Cross-check the two and flag mismatches — e.g. *"the site renders `#8A2B02` but the brand guide specifies `#802A02` → using the guide."* Save the official logo into the build. With no guideline, fall back to the scraped values below.
 
 **Color palette.** Named colors with hex codes + suggested CSS variable names (kebab-case). Group: primary, accent, canvas, surfaces, text roles, border.
 

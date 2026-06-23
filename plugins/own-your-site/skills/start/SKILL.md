@@ -40,7 +40,7 @@ If `$ARGUMENTS` already contains a URL, skip this — confirm it and move on.
 
 If the user says they don't have a website yet, gently redirect them: *"This tool migrates an existing website. If you're starting from scratch, you'll have a better experience using a different approach — Caravan can help, but Own Your Site isn't the right fit. Do you have any site at all, even a Squarespace draft?"* If they confirm they truly have nothing, end the intake here.
 
-## Q2 + Q3 + Q4 — single AskUserQuestion call
+## Q2–Q5 — the site + design context (single AskUserQuestion call)
 
 ```
 {
@@ -80,6 +80,17 @@ If the user says they don't have a website yet, gently redirect them: *"This too
         {"label": "Not sure — I want to see what's possible"}
       ],
       "multiSelect": false
+    },
+    {
+      "header": "Brand guide",
+      "question": "Do you have brand guidelines — a logo, exact colors, and fonts in a document?",
+      "options": [
+        {"label": "Yes — I'll share a file/PDF"},
+        {"label": "Yes — there's a link"},
+        {"label": "No — just match my current site"},
+        {"label": "Not sure"}
+      ],
+      "multiSelect": false
     }
   ]
 }
@@ -92,6 +103,10 @@ curl -s <url> | grep -oiE "(webflow|squarespace|wixstatic|wp-content|wp-includes
 ```
 
 If detection contradicts the user, surface it gently: *"Heads-up — the site looks like Webflow under the hood. OK if I treat it as Webflow?"*
+
+### If they have a brand guideline — get it and download it
+
+If they picked "Yes — file" or "Yes — link", ask for it (free-text — like the URL, a path/link can't be a picker): *"Great — paste the link, or drop the file in this folder and tell me the filename."* This is the one other free-text input besides the site URL. Save the path/URL to the profile. The audit will **read it and treat it as the authoritative brand source** — it beats whatever we scrape off the live site. If they have no guideline, that's fine; we reverse-engineer the brand from the site.
 
 ## Q5 + Q6 — single AskUserQuestion call
 
@@ -170,6 +185,7 @@ Create `.own-your-site/notes.md` (mkdir -p the folder first if needed). Write a 
 - Platform (user said): <platform>
 - Platform (detected): <platform>
 - Dynamic features: <comma list>
+- Brand guideline: <path / url / none>
 
 ## What the user wants
 - Approach: copy | redesign | undecided

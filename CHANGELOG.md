@@ -5,6 +5,14 @@ All notable changes to this plugin are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] — 2026-06-23
+
+### Added — bring your own brand guideline
+
+- `start` now asks whether the user has brand guidelines (logo, exact colors, fonts) as a file or link, and captures it.
+- `audit-analyst` reads a provided guideline (PDF/doc via Read, link via WebFetch) and treats it as the **authoritative** brand source — overriding values scraped from the live site, flagging mismatches, and using the official logo.
+- `migrate-site` writes the brand tokens into the new project's `CLAUDE.md` `## Design system` block (from the guideline when provided), so Claude's design skill and every future edit stay on-brand.
+
 ## [1.1.1] — 2026-06-23
 
 ### Changed — intake always uses the AskUserQuestion picker
