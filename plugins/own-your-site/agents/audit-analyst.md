@@ -71,7 +71,7 @@ Flag any row where the path changed — those need a 301 redirect (Phase 4 write
 
 **Tracking strategy.** GA4 via GTM is the reasonable default — let the client's marketing team add tags later without code.
 
-**Timeline.** Realistic day/week estimate. Account for scaffold (0.5d), first-pass build per page type (1-2d), client review (1d each), polish + mobile (1-2d), launch (0.5d).
+**Complexity (no time estimates — Principle 6).** Do **not** promise how long the build will take. Instead flag complexity honestly: what share maps cleanly to Preline vs is genuinely CUSTOM. The higher the CUSTOM ratio, the more hands-on review the rebuild needs — say so plainly so expectations are right for a heavily-custom site.
 
 ### 4. SEO & migration safety
 

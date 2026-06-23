@@ -46,6 +46,8 @@ The per-page procedure below is written with Playwright tool names. When running
 
 ## Per-page procedure
 
+**Resumable (Principle 5):** before walking a URL, skip it if its `data/<slug>-*.json` files already exist — so a re-run, or a reconnect after the live browser idles out mid-walk, picks up where it left off instead of starting the whole walk over.
+
 For EVERY URL in the list:
 
 1. `browser_resize` to 1440×900 (once at start)
@@ -74,10 +76,15 @@ For EVERY URL in the list:
 () => {
   const images = [];
   document.querySelectorAll('img').forEach(img => {
-    if (!img.src || img.src.startsWith('data:')) return;
+    // Principle 3: capture what actually renders. currentSrc is the responsive candidate
+    // the browser chose (and resolves <picture> too); fall back to src, then lazy data-src.
+    // Record srcset so the harvest can pull every candidate, not just one.
+    const realSrc = img.currentSrc || img.src || img.getAttribute('data-src') || '';
+    if (!realSrc || realSrc.startsWith('data:')) return;
     const rect = img.getBoundingClientRect();
     images.push({
-      src: img.src,
+      src: realSrc,
+      srcset: img.srcset || img.getAttribute('data-srcset') || '',
       alt: img.alt || '',
       naturalW: img.naturalWidth,
       naturalH: img.naturalHeight,

@@ -13,7 +13,7 @@
       "name": "own-your-site",
       "source": "./plugins/own-your-site",
       "description": "Migrate any Webflow, Squarespace, Wix, or WordPress site to a self-owned Astro project you control, then launch it on GitHub + Vercel — in plain English.",
-      "version": "1.2.0",
+      "version": "1.3.0",
       "author": {
         "name": "Caravan"
       },

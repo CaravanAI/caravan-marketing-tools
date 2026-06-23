@@ -37,8 +37,10 @@ If the user has GitHub:
 git init
 git add .
 git commit -m "Initial commit"
-gh repo create <name> --public --source=. --push
+gh repo create <name> --private --source=. --push
 ```
+
+**Private by default** (Principle 2) — a business's code shouldn't be world-readable. If they explicitly want it public, they can flip it in GitHub later.
 
 If they don't have GitHub:
 

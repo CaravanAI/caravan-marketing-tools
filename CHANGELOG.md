@@ -5,6 +5,19 @@ All notable changes to this plugin are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] — 2026-06-23
+
+### Added — Operating Principles + a robustness pass
+
+- **`PRINCIPLES.md`** — the operating principles the skills reason from, so the tool handles edge cases on its own instead of needing a human guide (never dead-end · safe-by-default · capture-what-renders · verify-once-per-template · resumable · no time promises · degrade silently · authoritative-sources-win).
+- **Never dead-end:** `migrate-site` no longer bounces the user to `/start` when the profile is missing — it proceeds on safe defaults (copy, universal path, scrape brand) and states its assumptions.
+- **Asset harvest widened:** the scout records `currentSrc` / `srcset` / lazy `data-src` (not just `img.src`), so responsive, lazy-loaded, and `<picture>` images stop showing up as "IMAGE NEEDED."
+- **Fidelity per template:** `visual-qa` checks one representative page per template, not just the homepage.
+- **Resumable walk:** the scout skips already-saved pages, so an idle Chrome drop resumes instead of restarting.
+- **Private by default:** `launch` creates the GitHub repo `--private` (was `--public`).
+- **No time estimates:** removed the audit's day/week timeline; it flags complexity honestly instead of promising a duration.
+- **README** rewritten in a clean classic open-source style (badges, quickstart-first); time-to-finish claims removed.
+
 ## [1.2.0] — 2026-06-23
 
 ### Added — bring your own brand guideline

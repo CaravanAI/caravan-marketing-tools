@@ -9,12 +9,14 @@ allowed-tools: Bash Read Write Edit Glob Grep Agent
 
 You are orchestrating a full website migration from $ARGUMENTS[0] to a new Astro project at $ARGUMENTS[1] (defaults to `./new-site/`).
 
+**Operating principles:** read `${CLAUDE_PLUGIN_ROOT}/PRINCIPLES.md` first and apply it throughout — especially *never dead-end* and *safe-by-default*.
+
 ## Phase -1 — Read the user's profile
 
 Read `.own-your-site/notes.md` from the working directory.
 
 - If it exists with `Phase: intake-complete` (or later), use the profile to skip questions you already have answers for.
-- If it doesn't exist, route the user: *"Before we migrate, let's run a quick intake so I know what you need. Run `/own-your-site:start` first."*
+- If it doesn't exist, **don't dead-end** (Principle 1). Offer a 20-second inline intake if they're up for it; otherwise proceed on safe defaults and say so: approach = *copy* (faithful match), plan = unknown → universal path (nothing premium-gated), brand = none → reverse-engineer from the site, accounts → ask at launch. State the assumptions so they can correct any.
 
 Update `notes.md` to mark `Phase: migration-in-progress` before kicking off Phase 0.
 
@@ -45,7 +47,7 @@ If the user estimated 7 pages and the sitemap has 75, tell them.
 
 Spawn the `site-scout` subagent. Pass the sitemap URL list and output directory. It walks every URL with Playwright, captures screenshots, scrolls to trigger lazy-loads, extracts brand tokens, saves all data to `<output-dir>/audit/`.
 
-Wait for scout to complete.
+Wait for scout to complete. If the browser connection drops mid-walk (common on the live-Chrome path), just re-spawn the scout — it resumes from the first page it hasn't saved yet (Principle 5), not from scratch.
 
 ## Phase 3 — Audit (analysis)
 
@@ -96,13 +98,13 @@ Wire in from `audit.md`:
 
 ## Phase 5 — Asset harvest
 
-Use Playwright (via the site-scout agent's already-saved data, or a fresh pass) to extract every `<img>` and CSS background. Download each asset to `<output-dir>/public/images/` via parallel curl. Self-verify coverage — every URL in the source should have a local file. Report % coverage. Retry failures once.
+Use the scout's saved data (or a fresh pass) to download every image source it recorded — including the `srcset`/`currentSrc` candidates and lazy `data-src` URLs, plus CSS backgrounds (Principle 3) — to `<output-dir>/public/images/` via parallel curl. Self-verify coverage — every recorded source should have a local file. Report % coverage. Retry failures once.
 
 ## Phase 6 — Run + fidelity
 
 `npm run dev` in the background. Capture the URL (usually `http://localhost:4321`).
 
-If profile is `copy`: spawn the `visual-qa` subagent to compare rebuild against source section-by-section. Report critical / moderate / minor divergences. If profile is `redesign`: skip this — divergences are expected.
+If profile is `copy`: spawn the `visual-qa` subagent to compare rebuild against source — **one representative page per template** (home + one of each distinct layout), not just the homepage (Principle 4). Report critical / moderate / minor divergences. If profile is `redesign`: skip this — divergences are expected.
 
 Run pre-launch grep checks:
 

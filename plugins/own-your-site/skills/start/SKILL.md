@@ -7,7 +7,9 @@ allowed-tools: Bash Write Read AskUserQuestion WebFetch
 
 # Welcome to Own Your Site — Intake
 
-About 5 minutes, a few quick questions. The output is a profile written to `.own-your-site/notes.md` that every other skill reads.
+A few quick questions. The output is a profile written to `.own-your-site/notes.md` that every other skill reads.
+
+**Operating principles:** read `${CLAUDE_PLUGIN_ROOT}/PRINCIPLES.md` and apply it throughout.
 
 ## Banner first
 
@@ -24,7 +26,7 @@ About 5 minutes, a few quick questions. The output is a profile written to `.own
 
 Then a one-line greeting:
 
-> Welcome. I have a few quick questions to find the best path for you — about five minutes.
+> Welcome. I have a few quick questions to find the best path for you.
 
 ## How to ask — always use the picker, never plain text
 

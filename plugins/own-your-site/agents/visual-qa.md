@@ -36,7 +36,9 @@ If either returns non-zero, flag it to the main thread and STOP. Placeholders sh
 
 Viewport: 1440×900 desktop first, then 390×844 mobile.
 
-For each major section on the homepage (typical sections: navbar, hero, photo marquee, editorial H2, alternating rows, card grids, CTA band, footer):
+First pick **one representative page per template** (Principle 4): the homepage plus one example of each distinct layout (e.g. a service/detail page, a listing page) — from the audit's site map. Check each chosen page; don't check every page, and don't stop at the homepage.
+
+For each major section on a chosen page (typical sections: navbar, hero, photo marquee, editorial H2, alternating rows, card grids, CTA band, footer):
 
 1. Navigate to source URL, scroll to the section, wait 1s
 2. Take a viewport screenshot: `audit/fidelity-screenshots/source-<slug>.png`
