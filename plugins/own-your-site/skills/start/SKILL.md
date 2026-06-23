@@ -1,13 +1,13 @@
 ---
 name: start
-description: Welcome + intake interview for Own Your Site. Invoke when the user says "hi", "hello", "let's start", "help me get started", asks "what does this do" / "how do I use this", expresses confusion or uncertainty, or mentions wanting to migrate a website. Runs a short 6-question intake (URL, platform, dynamic features, copy-vs-redesign, comfort with GitHub/Vercel) and writes a profile to `.own-your-site/notes.md` that downstream skills read. Safe — no destructive actions, no migration triggered.
+description: Welcome + intake interview for Own Your Site. Invoke when the user says "hi", "hello", "let's start", "help me get started", asks "what does this do" / "how do I use this", expresses confusion or uncertainty, or mentions wanting to migrate a website. Runs a short intake (URL, platform, dynamic features, copy-vs-redesign, GitHub/Vercel comfort, and Claude plan) and writes a profile to `.own-your-site/notes.md` that downstream skills read. Safe — no destructive actions, no migration triggered.
 argument-hint: "[source-url]"
 allowed-tools: Bash Write Read AskUserQuestion WebFetch
 ---
 
 # Welcome to Own Your Site — Intake
 
-5 minutes. Six questions. The output is a profile written to `.own-your-site/notes.md` that every other skill reads.
+About 5 minutes, a few quick questions. The output is a profile written to `.own-your-site/notes.md` that every other skill reads.
 
 ## Banner first
 
@@ -24,7 +24,7 @@ allowed-tools: Bash Write Read AskUserQuestion WebFetch
 
 Then a one-line greeting:
 
-> Welcome. I have six quick questions to figure out the best path for you. Should take five minutes.
+> Welcome. I have a few quick questions to find the best path for you — about five minutes.
 
 ## Q1 — URL (open-ended)
 
@@ -119,6 +119,36 @@ If detection contradicts the user, surface it gently: *"Heads-up — the site lo
 }
 ```
 
+## Q7 — Claude plan (final question)
+
+One last question. Frame it as **capability, not status** — never make the user feel they have a lesser version. **The entire migration works on every plan;** this only tells you which optional helpers are available.
+
+```
+{
+  "questions": [
+    {
+      "header": "Claude plan",
+      "question": "Last one — which Claude plan are you on? Everything works on all of them; this just tells me which extra helpers I can turn on for you.",
+      "options": [
+        {"label": "Claude Pro"},
+        {"label": "Claude Max"},
+        {"label": "Team or Enterprise"},
+        {"label": "Not sure"}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
+
+What the answer enables (apply **silently** — never announce a limitation, never upsell):
+- **Team / Enterprise** — the Advisor second-opinion on the rebuild plan and any design-artifact extras are available; if browsing via Claude in Chrome, it can use the best model.
+- **Max** — Advisor available; design artifacts are not (those need Team/Enterprise).
+- **Pro** — take the universal path; if browsing via Claude in Chrome it runs on Haiku 4.5 (fine for reading colors and fonts). No premium extras.
+- **Not sure** — assume the safe baseline: universal path, nothing premium-gated.
+
+If a helper turns out to be unavailable at runtime, **degrade silently** to the universal path — the user should never hit a "you can't do this" wall.
+
 ## Write the profile
 
 Create `.own-your-site/notes.md` (mkdir -p the folder first if needed). Write a human-readable markdown file the user can open and edit themselves:
@@ -140,6 +170,10 @@ Create `.own-your-site/notes.md` (mkdir -p the folder first if needed). Write a 
 - Key frustration: <chosen>
 - Comfort with GitHub/Vercel: yes | partial | none | skip
 
+## Their setup
+- Claude plan: Pro | Max | Team/Enterprise | unsure
+- Premium helpers available: Advisor (Max / Team / Enterprise) · design artifacts (Team / Enterprise only)
+
 ## Notes
 (Claude can append progress notes here as the migration runs.)
 ```
@@ -155,7 +189,8 @@ End with: *"When you're ready, run `/own-your-site:migrate-site` and we'll start
 
 ## Principles
 
-- **Six questions, no more.** Anything else can wait until it actually matters.
+- **Keep it light, no more than needed.** Anything else can wait until it actually matters. The intake should feel like a friendly chat, not a form.
+- **The plan question is capability, not status.** Everything works on every plan; never imply the user has a lesser version, never upsell, and degrade premium helpers silently when they're unavailable.
 - **Capture frustrations and approach.** These guide downstream tone and routing more than anything else.
 - **Don't paraphrase open-ended answers.** Quote what the user said verbatim in `notes.md`.
 - **Be warm.** Many users will be slightly nervous. Reassure often.
