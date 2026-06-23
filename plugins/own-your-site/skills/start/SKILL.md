@@ -26,6 +26,12 @@ Then a one-line greeting:
 
 > Welcome. I have a few quick questions to find the best path for you — about five minutes.
 
+## How to ask — always use the picker, never plain text
+
+Ask **every** question through the **AskUserQuestion** tool — the pop-up where the user clicks an option (or picks **Other** to type their own answer). Do **not** type questions as plain chat text and wait for a written reply. The pop-up picker is what makes the intake feel like a quick guided quiz, and it's far less work for a nervous newcomer than writing answers out.
+
+The **only** free-text input is the site URL (Q1) — that has to be typed. Everything after it (Q2–Q7) is written below as AskUserQuestion calls; keep them that way, and keep the batching shown (Q2–Q4 in one pop-up, Q5–Q6 in one).
+
 ## Q1 — URL (open-ended)
 
 > "What's the URL of the website you want to migrate?"
@@ -189,7 +195,7 @@ End with: *"When you're ready, run `/own-your-site:migrate-site` and we'll start
 
 ## Principles
 
-- **Keep it light, no more than needed.** Anything else can wait until it actually matters. The intake should feel like a friendly chat, not a form.
+- **Keep it light, no more than needed.** Anything else can wait until it actually matters. The intake should feel like a quick **tap-to-answer quiz** (AskUserQuestion pickers), not a wall of typed questions.
 - **The plan question is capability, not status.** Everything works on every plan; never imply the user has a lesser version, never upsell, and degrade premium helpers silently when they're unavailable.
 - **Capture frustrations and approach.** These guide downstream tone and routing more than anything else.
 - **Don't paraphrase open-ended answers.** Quote what the user said verbatim in `notes.md`.
