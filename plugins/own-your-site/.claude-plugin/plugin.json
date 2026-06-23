@@ -7,8 +7,8 @@
     "email": "hello@thecaravan.ai",
     "url": "https://www.thecaravan.ai"
   },
-  "homepage": "https://github.com/CaravanAI/own-your-site",
-  "repository": "https://github.com/CaravanAI/own-your-site",
+  "homepage": "https://github.com/CaravanAI/caravan-marketing-tools",
+  "repository": "https://github.com/CaravanAI/caravan-marketing-tools",
   "license": "MIT",
   "keywords": ["migration", "webflow", "squarespace", "wix", "wordpress", "astro", "tailwind", "website", "own-your-site"]
 }

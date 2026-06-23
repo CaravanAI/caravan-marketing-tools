@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Distribution moves from "download a `starter/` folder" back to an installable plugin, published in Caravan's public **caravan-marketing-tools** marketplace. Same capability, lower friction:
 
-- **Plugin layout** — skills + agents live in `plugins/own-your-site/` with a `plugin.json`; the repo root holds `.claude-plugin/marketplace.json` so users install with `/plugin marketplace add CaravanAI/own-your-site` then `/plugin install own-your-site@caravan-marketing-tools`.
+- **Plugin layout** — skills + agents live in `plugins/own-your-site/` with a `plugin.json`; the repo root holds `.claude-plugin/marketplace.json` so users install with `/plugin marketplace add CaravanAI/caravan-marketing-tools` then `/plugin install own-your-site@caravan-marketing-tools`.
 - **Namespaced commands** — skills are now `/own-your-site:start`, `/own-your-site:migrate-site`, `/own-your-site:launch`.
 - **Retired the `starter/` folder** — one source of truth.
 - **`site-scout` is dual-path** — it now prefers **Claude in Chrome** (drives the user's real browser; lowest setup friction) and falls back to **Playwright MCP** for headless/large-site runs.

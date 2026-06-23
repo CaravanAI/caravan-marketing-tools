@@ -24,7 +24,7 @@ Own Your Site is a Claude Code plugin. You'll need [Claude Code](https://claude.
 Then, inside Claude Code, add Caravan's marketplace and install the plugin:
 
 ```
-/plugin marketplace add CaravanAI/own-your-site
+/plugin marketplace add CaravanAI/caravan-marketing-tools
 /plugin install own-your-site@caravan-marketing-tools
 ```
 
