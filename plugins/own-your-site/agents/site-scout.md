@@ -109,6 +109,23 @@ For EVERY URL in the list:
 }
 ```
 
+## Per-page SEO metadata (EVERY page)
+
+After the image extraction, capture this page's SEO metadata to `data/<slug>-seo.json` via `browser_evaluate` (filename param). This feeds the audit's per-page metadata table and the migration URL map, so the rebuild keeps each page's title/description and the Google ranking it already has.
+
+```js
+() => ({
+  path: location.pathname,
+  title: document.title || '',
+  description: document.querySelector('meta[name="description"]')?.content || '',
+  canonical: document.querySelector('link[rel="canonical"]')?.href || '',
+  robots: document.querySelector('meta[name="robots"]')?.content || '',
+  ogTitle: document.querySelector('meta[property="og:title"]')?.content || '',
+  ogImage: document.querySelector('meta[property="og:image"]')?.content || '',
+  h1: document.querySelector('h1')?.textContent?.trim().slice(0, 120) || '',
+})
+```
+
 ## Homepage deep-dive (extra data — only on the first/homepage URL)
 
 After capturing the homepage normally, run TWO additional `browser_evaluate` calls:
@@ -169,7 +186,8 @@ Structured markdown with:
 7. **Page-by-page structure** — 3-5 bullets per page, top-to-bottom
 8. **Textures / backgrounds** — each unique texture URL + WHERE it's applied (critical — track per-element)
 9. **Data file index** — all files saved
-10. **Anomalies** — broken images, dead links, template leftovers, typos — anything worth flagging
+10. **SEO metadata** — per-page table of path + `<title>` + meta description + canonical; flag any missing, duplicated, or `noindex` pages
+11. **Anomalies** — broken images, dead links, template leftovers, typos — anything worth flagging
 
 ## Rules
 

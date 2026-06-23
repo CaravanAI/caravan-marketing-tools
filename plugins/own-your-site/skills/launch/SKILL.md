@@ -88,7 +88,30 @@ Once Vercel reports the deployment is live:
 
 If anything's broken in production but worked locally, it's almost always one of: env variables, image paths, or a build script issue. Walk through each.
 
-## Phase 5 — Hand off
+## Phase 5 — Tell Google you moved (protect search rankings)
+
+This is the step most DIY migrations skip — and it's how sites quietly lose their Google traffic. Frame it as protecting what they already earned, not a chore.
+
+First, confirm any redirects deployed. If the audit's URL map flagged changed paths, they're in `vercel.json` and deploy automatically with the site. Spot-check one:
+
+```bash
+curl -sI https://<new-site>/<an-old-path> | grep -i location
+```
+
+It should point to the new path with a `301`.
+
+Then walk the user through Google Search Console (free) in plain language:
+
+> "Google already knows your old site. We just need to tell it about the new one so you keep your search rankings."
+
+1. **Verify the site** at [search.google.com/search-console](https://search.google.com/search-console) — add the property for their domain. (If they kept the same domain and it was already verified, it carries over — nothing to do.)
+2. **Submit the sitemap** — in Search Console → Sitemaps, submit `https://<domain>/sitemap.xml`.
+3. **If the domain changed** (e.g. the old site was on a Webflow/Squarespace address and the new one is on their own domain): use Search Console's **Change of Address** tool on the old property to point it at the new one. Skip this if the domain is unchanged.
+4. **Ask Google to re-check the homepage** — use the URL Inspection tool and click "Request indexing."
+
+Reassure them: re-indexing takes a few days to a few weeks, a little ranking wobble is normal and recovers, and the redirects mean visitors lose nothing in the meantime. If they have a marketing person who owns Search Console, hand this list to that person instead.
+
+## Phase 6 — Hand off
 
 ```
 🎉 Your site is live at <url>.
@@ -96,6 +119,7 @@ If anything's broken in production but worked locally, it's almost always one of
 What's next:
 - Edit it in plain English. Just open Claude Code in this folder and tell it what you want.
 - Every time you push changes to GitHub, Vercel updates the live site automatically.
+- Google's been told about the move — your sitemap's submitted and your search rankings carry over.
 - Your old site is still up. When you're ready to fully switch over, point your DNS at Vercel and turn off the old hosting.
 
 Welcome home.
@@ -111,6 +135,7 @@ Update `.own-your-site/notes.md`:
 **Vercel project:** <url>
 **Live URL:** <url>
 **Custom domain:** <domain or null>
+**Search Console:** sitemap submitted | change-of-address filed | unchanged-domain n/a
 ```
 
 ## Principles

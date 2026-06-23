@@ -51,24 +51,36 @@ End with a coverage % and a list of custom components required.
 
 ### 3. Rebuild plan
 
-**Site map.** Astro page file list. Propose clean URLs. Use dynamic routes for collections.
+**Site map + URL map.** Astro page file list. **Preserve the source's exact URL paths 1:1 by default** — this is a migration, and changing a live page's address loses its Google ranking unless a redirect is in place. Only change a path when there's a real reason; record every change so Phase 4 can write a 301 redirect for it. Use dynamic routes for collections, keeping the same public path.
 
-| File | Route | Notes |
-|---|---|---|
-| `src/pages/index.astro` | `/` | Home |
-| `src/pages/portfolio/[slug].astro` | `/portfolio/[slug]` | Detail page |
+| Source URL | New route (keep identical) | File | Changed? |
+|---|---|---|---|
+| `/` | `/` | `src/pages/index.astro` | no |
+| `/services/widgets` | `/services/widgets` | `src/pages/services/[slug].astro` | no |
+
+Flag any row where the path changed — those need a 301 redirect (Phase 4 writes them to `vercel.json`). An empty "changed" column is the goal.
 
 **Component tree.** Every `.astro` file to create, grouped by purpose.
 
 **Data & content.** `src/data/*.ts` for structured data, content collections for markdown-backed (blog, case studies). Include Zod schemas.
 
-**Forms strategy.** Pick ONE: HubSpot embed / Formspree / Vercel server action + Resend. Reason about which fits.
+**Forms strategy.** Pick ONE: HubSpot embed / Formspree / Vercel server action + Resend. Reason about which fits. State the exact integration so Phase 4 wires a **working** endpoint — a migrated contact form that posts nowhere is a silent failure for the business (often their #1 conversion). Note where submissions should go (email / CRM).
 
 **Tracking strategy.** GA4 via GTM is the reasonable default — let the client's marketing team add tags later without code.
 
 **Timeline.** Realistic day/week estimate. Account for scaffold (0.5d), first-pass build per page type (1-2d), client review (1d each), polish + mobile (1-2d), launch (0.5d).
 
-### 4. Open scope questions
+### 4. SEO & migration safety
+
+The migration must not cost the site the Google ranking it already has. Specify:
+
+- **Per-page metadata.** A table of every page with its `<title>` and meta description from the scout's per-page SEO capture. Carry these over verbatim; only rewrite ones that are missing, duplicated, or clearly broken (note which). One unique, descriptive title + description per page.
+- **Canonical + social.** Every page gets a self-referencing `<link rel="canonical">` and Open Graph / Twitter-card tags (handled in BaseLayout — confirm the data is present).
+- **Structured data (JSON-LD).** Recommend the schema for this business: `Organization` on the homepage always; `LocalBusiness` if it has a physical location / phone / hours (pull name, address, phone from the site); `BreadcrumbList` if the site is 3+ levels deep.
+- **robots.txt.** Allow crawling; include a `Sitemap:` line. Confirm no page carries a leftover `noindex`.
+- **Redirects.** List any source URL whose path changed → new path, for 301 redirects in Phase 4. (An empty list is the goal.)
+
+### 5. Open scope questions
 
 The list of decisions the user needs to make before or during the rebuild. Things like:
 - Which content-collection items actually migrate?

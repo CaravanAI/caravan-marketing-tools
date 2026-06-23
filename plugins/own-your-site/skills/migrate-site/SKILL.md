@@ -67,12 +67,18 @@ npm create astro@latest . -- --template minimal --yes --no-install
 npm install -D @astrojs/sitemap @tailwindcss/forms @tailwindcss/typography @tailwindcss/vite tailwindcss preline
 ```
 
-Wire in brand tokens from `audit.md`:
-- `src/styles/global.css` with `@import "tailwindcss"` + `@theme` block
-- `src/layouts/BaseLayout.astro` (font preconnects, slot)
+Wire in from `audit.md`:
+- `src/styles/global.css` with `@import "tailwindcss"` + `@theme` block (brand tokens)
+- `src/layouts/BaseLayout.astro` — font preconnects, slot, **and the SEO head**: per-page `<title>` and `<meta name="description">` (passed as props, defaulting to the audit's per-page metadata), a self-referencing `<link rel="canonical">`, and Open Graph + Twitter-card tags. Every page passes its own title/description through.
+- `src/components/StructuredData.astro` — JSON-LD from the audit (Organization always; LocalBusiness if the business has a location/phone/hours), rendered in BaseLayout's `<head>`
 - `src/components/Navbar.astro`, `Footer.astro`, `PlaceholderImage.astro` (with `IMAGE NEEDED` literal string + dashed magenta border), `Button.astro`
-- `astro.config.mjs` (sitemap integration, Tailwind v4 vite plugin)
+- **Forms:** wire the *working* backend the audit chose (e.g. Formspree action / HubSpot embed) so the contact form actually submits — never ship dead form markup. It's often the business's #1 conversion.
+- `public/robots.txt` — allow crawling + a `Sitemap:` line; confirm no page is left `noindex`
+- `astro.config.mjs` — set `site` to the final domain (so the sitemap emits absolute URLs), `@astrojs/sitemap` integration, Tailwind v4 vite plugin
+- `vercel.json` — `redirects` (HTTP 301) for every row the audit's URL map flagged as *changed*; if nothing changed, no redirects needed
 - `package.json` scripts: `dev`, `build`, `preview`, `verify` (greps for IMAGE NEEDED)
+
+**Migration safety:** the rebuilt pages must live at the **same URL paths** as the source (per the audit's URL map). Same paths = the site keeps its Google ranking with zero redirects. Only the rows flagged as changed get a 301 in `vercel.json`.
 
 **Design-taste decision:** if profile says `Approach: copy`, mirror the source's button/card/marquee behavior even when it's not "modern." If `redesign`, apply lift+shadow buttons, edge-to-edge card images, and continuous marquees as defaults.
 
@@ -94,6 +100,14 @@ curl -s http://localhost:4321/ | grep -c "IMAGE NEEDED"
 ```
 
 Both should be zero before declaring done.
+
+Also confirm the SEO basics rendered on the homepage:
+
+```bash
+curl -s http://localhost:4321/ | grep -ioE "<title>|rel=\"canonical\"|application/ld\+json" | sort -u
+```
+
+Expect `<title>`, a canonical link, and a JSON-LD block. If any are missing, fix BaseLayout/StructuredData before handing off.
 
 ## Phase 7 — Hand off
 
