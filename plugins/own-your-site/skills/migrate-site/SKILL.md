@@ -57,6 +57,17 @@ Spawn the `audit-analyst` subagent. It reads the scout's output and produces ONE
 
 Show the user the audit before proceeding to scaffold. Let them push back on assumptions.
 
+## Phase 3.5 — Project board (show the plan as tracked work)
+
+Once the audit is approved, stand up a project board so the user can see what's done, in progress, and left — like a real agency would, instead of a black box. Build the task list from the audit's site map (one item per page/template) plus the migration milestones: Scaffold → Images → Quality check → Launch.
+
+Read the plan from `.own-your-site/notes.md` and branch:
+
+- **Team / Enterprise plan → publish a board artifact.** Write a self-contained kanban HTML (columns: To-do / In progress / Done; cards = pages + milestones) and publish it with the Artifact tool. **Republish to the same artifact as each phase finishes** so the board updates in place while they watch (the page can't poll itself — Claude editing + re-publishing is how artifacts update). Pull colors/fonts from the project's `CLAUDE.md` design tokens so it's on-brand. Needs a `/login` session on the Anthropic API (not Bedrock/Vertex/Foundry); Claude asks permission on first publish.
+- **Any other plan (Pro / Max / unsure) → write a `PROJECT.md` checklist** in the project folder instead (`## Done` / `## In progress` / `## To do` with `- [ ]` items). Re-show it at each checkpoint. Same information, works everywhere, persists in their repo.
+
+Either way: **update the board as each later phase completes**, and glance at it with the user at each gate. If artifact publishing isn't available for any reason, fall back silently to `PROJECT.md` — never leave the user without a progress view.
+
 ## Phase 4 — Scaffold
 
 Run the Astro scaffold inline (no separate subagent — this is straightforward execution):

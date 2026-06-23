@@ -5,6 +5,13 @@ All notable changes to this plugin are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] — 2026-06-23
+
+### Added — project board (visible, tracked work)
+
+- After the audit is approved, `migrate-site` stands up a **project board** from the site map + migration milestones (Scaffold → Images → Quality check → Launch) and updates it as each phase completes.
+- **Team / Enterprise plans** get a live **board artifact** (kanban that republishes in place as work progresses, styled on-brand from `CLAUDE.md` design tokens). **All other plans** get a `PROJECT.md` checklist in the project folder. Degrades silently to `PROJECT.md` if artifact publishing is unavailable.
+
 ## [1.0.0] — 2026-06-23
 
 ### Changed — repackaged as a Claude Code plugin + public marketplace

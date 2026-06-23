@@ -1,7 +1,7 @@
 {
   "name": "own-your-site",
   "description": "Migrate any Webflow, Squarespace, Wix, or WordPress site to a self-owned Astro project you control. Sitemap-first discovery, full asset harvest with self-verification, a visual fidelity check against the source, and a guided GitHub + Vercel launch. Own your website. Update it in plain English.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Caravan",
     "email": "hello@thecaravan.ai",
